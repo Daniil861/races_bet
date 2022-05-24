@@ -13,43 +13,12 @@
             document.documentElement.classList.add(className);
         }));
     }
-    let isMobile = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows();
-        }
-    };
     function addLoadedClass() {
         window.addEventListener("load", (function() {
             if (document.querySelector("body")) setTimeout((function() {
                 document.querySelector("body").classList.add("_loaded");
             }), 200);
         }));
-    }
-    function fullVHfix() {
-        const fullScreens = document.querySelectorAll("[data-fullscreen]");
-        if (fullScreens.length && isMobile.any()) {
-            window.addEventListener("resize", fixHeight);
-            function fixHeight() {
-                let vh = .01 * window.innerHeight;
-                document.documentElement.style.setProperty("--vh", `${vh}px`);
-            }
-            fixHeight();
-        }
     }
     function ssr_window_esm_isObject(obj) {
         return null !== obj && "object" === typeof obj && "constructor" in obj && obj.constructor === Object;
@@ -3238,6 +3207,16 @@
     function get_random(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
+    function add_money(count, block, delay, delay_off) {
+        setTimeout((() => {
+            document.querySelectorAll(block).forEach((el => el.textContent = +sessionStorage.getItem("money") + count));
+            document.querySelectorAll(block).forEach((el => el.classList.add("_anim-add-money")));
+            sessionStorage.setItem("money", +sessionStorage.getItem("money") + count);
+        }), delay);
+        setTimeout((() => {
+            document.querySelectorAll(block).forEach((el => el.classList.remove("_anim-add-money")));
+        }), delay_off);
+    }
     let anim_items = document.querySelectorAll(".icon-anim img");
     function get_random_animate() {
         let number = get_random(0, 3);
@@ -3258,6 +3237,17 @@
         document.querySelector(".block-bet__coins_shop").textContent = sessionStorage.getItem("bet");
         document.querySelector(".item-shop__price").textContent = +sessionStorage.getItem("bet") * price;
     }
+    const config_game = {
+        speed_monster_1: 1,
+        speed_monster_2: 1,
+        speed_monster_3: 1,
+        monster_1_position: 0,
+        monster_2_position: 0,
+        monster_3_position: 0,
+        winners: [],
+        timerId: false,
+        hero_finished: false
+    };
     if (document.querySelector(".game-monsters") && !sessionStorage.getItem("current-monster")) sessionStorage.setItem("current-monster", 1);
     document.querySelectorAll(".item-choose__monster").forEach(((el, i) => {
         if (i == +sessionStorage.getItem("current-monster") - 1) el.classList.add("_active");
@@ -3265,6 +3255,165 @@
     function write_bonuses() {
         document.querySelector(".race-monsters__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
         document.querySelector(".race-monsters__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
+    }
+    function start_move_monsters() {
+        config_game.speed_monster_1 = Math.random() * (1 - .2) + .2;
+        config_game.speed_monster_2 = Math.random() * (1 - .2) + .2;
+        config_game.speed_monster_3 = Math.random() * (1 - .2) + .2;
+        console.log(`config_game.speed_monster_1 - ${config_game.speed_monster_1}`);
+        console.log(`config_game.speed_monster_2 - ${config_game.speed_monster_2}`);
+        console.log(`config_game.speed_monster_3 - ${config_game.speed_monster_3}`);
+        document.querySelectorAll(".race-monsters__heroe").forEach((el => el.classList.add("_active")));
+        config_game.timerId = setInterval((() => {
+            console.log("Двигаем монстров");
+            config_game.monster_1_position += config_game.speed_monster_1;
+            config_game.monster_2_position += config_game.speed_monster_2;
+            config_game.monster_3_position += config_game.speed_monster_3;
+            document.querySelector(".race-monsters__player_1").style.left = `${config_game.monster_1_position}%`;
+            document.querySelector(".race-monsters__player_2").style.left = `${config_game.monster_2_position}%`;
+            document.querySelector(".race-monsters__player_3").style.left = `${config_game.monster_3_position}%`;
+            console.log(`config_game.monster_1_position - ${config_game.monster_1_position}`);
+            console.log(`config_game.monster_2_position - ${config_game.monster_2_position}`);
+            console.log(`config_game.monster_3_position - ${config_game.monster_3_position}`);
+            if (config_game.monster_1_position > 80) {
+                console.log(`1 finished`);
+                config_game.speed_monster_1 = 0;
+                config_game.winners.push(1);
+                config_game.monster_1_position = 79.9;
+                document.querySelector(".race-monsters__heroe_1").classList.remove("_active");
+                if (1 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+            }
+            if (config_game.monster_2_position > 80) {
+                console.log(`2 finished`);
+                config_game.speed_monster_2 = 0;
+                config_game.winners.push(2);
+                config_game.monster_2_position = 79.9;
+                document.querySelector(".race-monsters__heroe_2").classList.remove("_active");
+                if (2 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+            }
+            if (config_game.monster_3_position > 80) {
+                console.log(`3 finished`);
+                config_game.speed_monster_3 = 0;
+                config_game.winners.push(3);
+                config_game.monster_3_position = 79.9;
+                document.querySelector(".race-monsters__heroe_3").classList.remove("_active");
+                if (3 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+            }
+            console.log(`config_game.winners= - ${config_game.winners}`);
+            console.log(`config_game.winners.length - ${config_game.winners.length}`);
+            if (3 == config_game.winners.length) {
+                console.log("Останавливаем движение монстров - все пришли к финишу");
+                clearInterval(config_game.timerId);
+                check_winner();
+                setTimeout((() => {
+                    document.querySelector(".race-monsters").classList.add("_hide");
+                    document.querySelector(".prize-screen").classList.remove("_hide");
+                }), 1e3);
+            }
+            console.log(`config_game.hero_finished - ${config_game.hero_finished}`);
+        }), 35);
+    }
+    function start_game() {
+        setTimeout((() => {
+            document.querySelector(".race-monsters__timer").classList.add("_active");
+            write_timer_count();
+        }), 500);
+        setTimeout((() => {
+            delete_money(+sessionStorage.getItem("current-bet"), ".check");
+            start_move_monsters();
+            document.querySelector(".race-monsters__timer").classList.remove("_active");
+        }), 3500);
+    }
+    function write_timer_count() {
+        let count = 3;
+        document.querySelector(".race-monsters__timer-count").textContent = count;
+        let timer = setInterval((() => {
+            if (0 == count) clearInterval(timer);
+            count--;
+            document.querySelector(".race-monsters__timer-count").textContent = count;
+        }), 1e3);
+    }
+    function check_winner() {
+        create_player(config_game.winners[0], 1);
+        create_player(config_game.winners[1], 0);
+        create_player(config_game.winners[2], 2);
+        let num = config_game.winners.indexOf(+sessionStorage.getItem("current-monster"));
+        document.querySelector(`.item-choose__playeer_${num + 1}`).textContent = "playeer";
+        let bet = +sessionStorage.getItem("current-bet");
+        if ("0" == num) {
+            document.querySelector(".item-choose__count").textContent = 5 * bet;
+            add_money(5 * bet, ".check", 10, 1e3);
+        } else if ("1" == num) {
+            add_money(bet, ".check", 10, 1e3);
+            document.querySelector(".item-choose__count").textContent = bet;
+        } else if ("2" == num) document.querySelector(".item-choose__count").textContent = 0;
+    }
+    function create_player(number, place) {
+        let image = document.createElement("img");
+        image.setAttribute("src", `img/other/monster-${number}.png`);
+        document.querySelectorAll(`.item-choose__image-monst_win`).forEach(((el, i) => {
+            if (i == place) el.append(image);
+        }));
+    }
+    function reset_game_monsters() {
+        config_game.monster_1_position = 0;
+        config_game.monster_2_position = 0;
+        config_game.monster_3_position = 0;
+        config_game.winners = [];
+        document.querySelector(".race-monsters__player_1").style.left = `${config_game.monster_1_position}%`;
+        document.querySelector(".race-monsters__player_2").style.left = `${config_game.monster_2_position}%`;
+        document.querySelector(".race-monsters__player_3").style.left = `${config_game.monster_3_position}%`;
+        document.querySelectorAll(".race-monsters__item").forEach((el => {
+            if (el.classList.contains("_hide")) el.classList.remove("_hide");
+        }));
+        config_game.hero_finished = false;
+        setTimeout((() => {
+            document.querySelectorAll(".item-choose__image-monst_win img").forEach((el => el.remove()));
+            document.querySelectorAll(".item-choose__playeer").forEach((el => el.textContent = "bot"));
+            start_game();
+        }), 1e3);
+    }
+    function current_monster_speed_up() {
+        let hero_speed;
+        if (1 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_1; else if (2 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_2; else if (3 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_3;
+        hero_speed *= 1.5;
+        if (1 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_1 = hero_speed; else if (2 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_2 = hero_speed; else if (3 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_3 = hero_speed;
+    }
+    function monster_speed_down() {
+        let enemy_1_speed;
+        let enemy_2_speed;
+        let num = get_random(1, 3);
+        if (1 == +sessionStorage.getItem("current-monster")) {
+            enemy_1_speed = config_game.speed_monster_2;
+            enemy_2_speed = config_game.speed_monster_3;
+            if (1 == num) {
+                enemy_1_speed /= 1.5;
+                config_game.speed_monster_2 = enemy_1_speed;
+            } else if (2 == num) {
+                enemy_2_speed /= 1.5;
+                config_game.speed_monster_3 = enemy_2_speed;
+            }
+        } else if (2 == +sessionStorage.getItem("current-monster")) {
+            enemy_1_speed = config_game.speed_monster_1;
+            enemy_2_speed = config_game.speed_monster_3;
+            if (1 == num) {
+                enemy_1_speed /= 1.5;
+                config_game.speed_monster_1 = enemy_1_speed;
+            } else if (2 == num) {
+                enemy_2_speed /= 1.5;
+                config_game.speed_monster_3 = enemy_2_speed;
+            }
+        } else if (3 == +sessionStorage.getItem("current-monster")) {
+            enemy_1_speed = config_game.speed_monster_1;
+            enemy_2_speed = config_game.speed_monster_2;
+            if (1 == num) {
+                enemy_1_speed /= 1.5;
+                config_game.speed_monster_1 = enemy_1_speed;
+            } else if (2 == num) {
+                enemy_2_speed /= 1.5;
+                config_game.speed_monster_2 = enemy_2_speed;
+            }
+        }
     }
     document.addEventListener("click", (e => {
         let targetElement = e.target;
@@ -3298,11 +3447,16 @@
             document.querySelector(".choose").classList.add("_hide");
             document.querySelector(".race-monsters").classList.remove("_hide");
             write_bonuses();
+            start_game();
+            console.log("Вошли на экран игры");
         }
-        if (targetElement.closest(".race-monsters__button-back")) {
-            document.querySelector(".choose").classList.remove("_hide");
-            document.querySelector(".race-monsters").classList.add("_hide");
-        }
+        if (!document.querySelector(".prize-screen").classList.contains("_hide") && targetElement.closest(".item-choose__btn_again")) if (+sessionStorage.getItem("money") < +sessionStorage.getItem("current-bet")) {
+            console.log("Денег больше чем ставка");
+            document.querySelector(".race-monsters").classList.remove("_hide");
+            document.querySelector(".prize-screen").classList.add("_hide");
+            reset_game_monsters();
+        } else location.href = "game-monsters.html";
+        if (targetElement.closest(".race-monsters__button-back")) ;
         if (targetElement.closest(".choose__button_store")) {
             if (!sessionStorage.getItem("speed-up")) sessionStorage.setItem("speed-up", 0);
             if (!sessionStorage.getItem("speed-down")) sessionStorage.setItem("speed-down", 0);
@@ -3343,17 +3497,20 @@
             sessionStorage.setItem("current-monster", 3);
             targetElement.closest(".item-choose__monster").classList.add("_active");
         }
-        if (targetElement.closest(".race-monsters__item_down") && +sessionStorage.getItem("speed-down") > 0) {
+        if (targetElement.closest(".race-monsters__item_down") && +sessionStorage.getItem("speed-down") > 0 && !config_game.hero_finished) {
             sessionStorage.setItem("speed-down", +sessionStorage.getItem("speed-down") - 1);
             document.querySelector(".race-monsters__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
+            monster_speed_down();
+            targetElement.closest(".race-monsters__item_down").classList.add("_hide");
         }
-        if (targetElement.closest(".race-monsters__item_up") && +sessionStorage.getItem("speed-up") > 0) {
+        if (targetElement.closest(".race-monsters__item_up") && +sessionStorage.getItem("speed-up") > 0 && !config_game.hero_finished) {
             sessionStorage.setItem("speed-up", +sessionStorage.getItem("speed-up") - 1);
             document.querySelector(".race-monsters__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
+            current_monster_speed_up();
+            targetElement.closest(".race-monsters__item_up").classList.add("_hide");
         }
     }));
     window["FLS"] = true;
     isWebp();
     addLoadedClass();
-    fullVHfix();
 })();
