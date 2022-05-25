@@ -3374,12 +3374,6 @@
             document.querySelector(`.race__heroe-box_${+sessionStorage.getItem("current-hero")}`).classList.remove("_speed-up");
         }), 500);
     }
-    function get_anim_speed_down(number) {
-        document.querySelector(`.race__heroe-box_${number}`).classList.add("_speed-down");
-        setTimeout((() => {
-            document.querySelector(`.race__heroe-box_${number}`).classList.remove("_speed-down");
-        }), 500);
-    }
     function monster_speed_down() {
         let enemy_1_speed;
         let enemy_2_speed;
@@ -3421,6 +3415,12 @@
                 get_anim_speed_down(2);
             }
         }
+    }
+    function get_anim_speed_down(number) {
+        document.querySelector(`.race__heroe-box_${number}`).classList.add("_speed-down");
+        setTimeout((() => {
+            document.querySelector(`.race__heroe-box_${number}`).classList.remove("_speed-down");
+        }), 500);
     }
     document.addEventListener("click", (e => {
         let targetElement = e.target;

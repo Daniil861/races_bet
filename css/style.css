@@ -968,8 +968,9 @@ body._hold {
   transform: rotateY(-180deg);
 }
 .race__heroe-box._speed-up {
-  transition: all 0.3s ease 0s;
-  transform: scale(1.3) translateX(60px);
+  transition: all 0.2s ease 0s;
+  transform: scale(1.3) translateX(40px);
+  opacity: 0.7;
 }
 .race__heroe-box._speed-down {
   animation: opacity_item 0.2s ease 2;
