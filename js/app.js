@@ -3232,7 +3232,10 @@
     if (document.querySelector(".icon-anim img")) setInterval((() => {
         get_random_animate();
     }), 1e4);
-    if (document.querySelector(".main") && document.querySelector(".preloader").classList.contains("_hide")) document.querySelector(".main").classList.add("_active");
+    if (document.querySelector(".main")) {
+        if (!sessionStorage.getItem("speed-up")) sessionStorage.setItem("speed-up", 0);
+        if (!sessionStorage.getItem("speed-down")) sessionStorage.setItem("speed-down", 0);
+    }
     function write_bet_price_shop(price) {
         document.querySelector(".block-bet__coins_shop").textContent = sessionStorage.getItem("bet");
         document.querySelector(".item-shop__price").textContent = +sessionStorage.getItem("bet") * price;
@@ -3443,8 +3446,6 @@
             reset_game_monsters();
         } else location.href = "game-monsters.html";
         if (targetElement.closest(".choose__button_store")) {
-            if (!sessionStorage.getItem("speed-up")) sessionStorage.setItem("speed-up", 0);
-            if (!sessionStorage.getItem("speed-down")) sessionStorage.setItem("speed-down", 0);
             document.querySelector(".choose").classList.add("_hide");
             document.querySelector(".shop").classList.remove("_hide");
         }
