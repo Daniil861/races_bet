@@ -3134,9 +3134,9 @@
                     }), 500);
                     if (index % 2 == 0) {
                         setTimeout((() => {
-                            document.querySelector(".item-shop__price").textContent = "4000";
+                            document.querySelector(".item-shop__price").textContent = "2500";
                         }), 500);
-                        sessionStorage.setItem("current-price-bonus", 4e3);
+                        sessionStorage.setItem("current-price-bonus", 2500);
                     } else {
                         setTimeout((() => {
                             document.querySelector(".item-shop__price").textContent = "3000";
@@ -3173,7 +3173,7 @@
             el.textContent = sessionStorage.getItem("money");
         }));
     }
-    if (document.querySelector(".game-monsters")) if (+sessionStorage.getItem("money") >= 100) {
+    if (document.querySelector(".game")) if (+sessionStorage.getItem("money") >= 100) {
         document.querySelector(".block-bet__coins").textContent = 100;
         sessionStorage.setItem("current-bet", 100);
     } else {
@@ -3238,107 +3238,94 @@
         document.querySelector(".item-shop__price").textContent = +sessionStorage.getItem("bet") * price;
     }
     const config_game = {
-        speed_monster_1: 1,
-        speed_monster_2: 1,
-        speed_monster_3: 1,
-        monster_1_position: 0,
-        monster_2_position: 0,
-        monster_3_position: 0,
+        speed_hero_1: 1,
+        speed_hero_2: 1,
+        speed_hero_3: 1,
+        hero_1_position: 0,
+        hero_2_position: 0,
+        hero_3_position: 0,
         winners: [],
         timerId: false,
         hero_finished: false
     };
-    if (document.querySelector(".game-monsters") && !sessionStorage.getItem("current-monster")) sessionStorage.setItem("current-monster", 1);
-    document.querySelectorAll(".item-choose__monster").forEach(((el, i) => {
-        if (i == +sessionStorage.getItem("current-monster") - 1) el.classList.add("_active");
+    if (document.querySelector(".game") && !sessionStorage.getItem("current-hero")) sessionStorage.setItem("current-hero", 1);
+    document.querySelectorAll(".item-choose__hero").forEach(((el, i) => {
+        if (i == +sessionStorage.getItem("current-hero") - 1) el.classList.add("_active");
     }));
     function write_bonuses() {
-        document.querySelector(".race-monsters__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
-        document.querySelector(".race-monsters__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
+        document.querySelector(".race__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
+        document.querySelector(".race__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
     }
     function start_move_monsters() {
-        config_game.speed_monster_1 = Math.random() * (1 - .2) + .2;
-        config_game.speed_monster_2 = Math.random() * (1 - .2) + .2;
-        config_game.speed_monster_3 = Math.random() * (1 - .2) + .2;
-        console.log(`config_game.speed_monster_1 - ${config_game.speed_monster_1}`);
-        console.log(`config_game.speed_monster_2 - ${config_game.speed_monster_2}`);
-        console.log(`config_game.speed_monster_3 - ${config_game.speed_monster_3}`);
-        document.querySelectorAll(".race-monsters__heroe").forEach((el => el.classList.add("_active")));
+        config_game.speed_hero_1 = Math.random() * (1 - .2) + .2;
+        config_game.speed_hero_2 = Math.random() * (1 - .2) + .2;
+        config_game.speed_hero_3 = Math.random() * (1 - .2) + .2;
+        document.querySelectorAll(".race__heroe").forEach((el => el.classList.add("_active")));
         config_game.timerId = setInterval((() => {
-            console.log("Двигаем монстров");
-            config_game.monster_1_position += config_game.speed_monster_1;
-            config_game.monster_2_position += config_game.speed_monster_2;
-            config_game.monster_3_position += config_game.speed_monster_3;
-            document.querySelector(".race-monsters__player_1").style.left = `${config_game.monster_1_position}%`;
-            document.querySelector(".race-monsters__player_2").style.left = `${config_game.monster_2_position}%`;
-            document.querySelector(".race-monsters__player_3").style.left = `${config_game.monster_3_position}%`;
-            console.log(`config_game.monster_1_position - ${config_game.monster_1_position}`);
-            console.log(`config_game.monster_2_position - ${config_game.monster_2_position}`);
-            console.log(`config_game.monster_3_position - ${config_game.monster_3_position}`);
-            if (config_game.monster_1_position > 80) {
-                console.log(`1 finished`);
-                config_game.speed_monster_1 = 0;
+            config_game.hero_1_position += config_game.speed_hero_1;
+            config_game.hero_2_position += config_game.speed_hero_2;
+            config_game.hero_3_position += config_game.speed_hero_3;
+            document.querySelector(".race__heroe_1 img").style.left = `${config_game.hero_1_position}%`;
+            document.querySelector(".race__heroe_2 img").style.left = `${config_game.hero_2_position}%`;
+            document.querySelector(".race__heroe_3 img").style.left = `${config_game.hero_3_position}%`;
+            if (config_game.hero_1_position > 80) {
+                config_game.speed_hero_1 = 0;
                 config_game.winners.push(1);
-                config_game.monster_1_position = 79.9;
-                document.querySelector(".race-monsters__heroe_1").classList.remove("_active");
-                if (1 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+                config_game.hero_1_position = 79.9;
+                document.querySelector(".race__heroe_1").classList.remove("_active");
+                if (1 == +sessionStorage.getItem("current-hero")) config_game.hero_finished = true;
             }
-            if (config_game.monster_2_position > 80) {
-                console.log(`2 finished`);
-                config_game.speed_monster_2 = 0;
+            if (config_game.hero_2_position > 80) {
+                config_game.speed_hero_2 = 0;
                 config_game.winners.push(2);
-                config_game.monster_2_position = 79.9;
-                document.querySelector(".race-monsters__heroe_2").classList.remove("_active");
-                if (2 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+                config_game.hero_2_position = 79.9;
+                document.querySelector(".race__heroe_2").classList.remove("_active");
+                if (2 == +sessionStorage.getItem("current-hero")) config_game.hero_finished = true;
             }
-            if (config_game.monster_3_position > 80) {
-                console.log(`3 finished`);
-                config_game.speed_monster_3 = 0;
+            if (config_game.hero_3_position > 80) {
+                config_game.speed_hero_3 = 0;
                 config_game.winners.push(3);
-                config_game.monster_3_position = 79.9;
-                document.querySelector(".race-monsters__heroe_3").classList.remove("_active");
-                if (3 == +sessionStorage.getItem("current-monster")) config_game.hero_finished = true;
+                config_game.hero_3_position = 79.9;
+                document.querySelector(".race__heroe_3").classList.remove("_active");
+                if (3 == +sessionStorage.getItem("current-hero")) config_game.hero_finished = true;
             }
-            console.log(`config_game.winners= - ${config_game.winners}`);
-            console.log(`config_game.winners.length - ${config_game.winners.length}`);
             if (3 == config_game.winners.length) {
-                console.log("Останавливаем движение монстров - все пришли к финишу");
                 clearInterval(config_game.timerId);
                 check_winner();
                 setTimeout((() => {
-                    document.querySelector(".race-monsters").classList.add("_hide");
+                    document.querySelector(".race").classList.add("_hide");
                     document.querySelector(".prize-screen").classList.remove("_hide");
                 }), 1e3);
             }
-            console.log(`config_game.hero_finished - ${config_game.hero_finished}`);
         }), 35);
     }
     function start_game() {
         setTimeout((() => {
-            document.querySelector(".race-monsters__timer").classList.add("_active");
+            document.querySelector(".race__timer").classList.add("_active");
             write_timer_count();
         }), 500);
         setTimeout((() => {
             delete_money(+sessionStorage.getItem("current-bet"), ".check");
             start_move_monsters();
-            document.querySelector(".race-monsters__timer").classList.remove("_active");
+            document.querySelector(".race__bonuses-box").classList.remove("_hold");
+            document.querySelector(".race__timer").classList.remove("_active");
         }), 3500);
     }
     function write_timer_count() {
         let count = 3;
-        document.querySelector(".race-monsters__timer-count").textContent = count;
+        document.querySelector(".race__timer-count").textContent = count;
         let timer = setInterval((() => {
             if (0 == count) clearInterval(timer);
             count--;
-            document.querySelector(".race-monsters__timer-count").textContent = count;
+            document.querySelector(".race__timer-count").textContent = count;
         }), 1e3);
     }
     function check_winner() {
         create_player(config_game.winners[0], 1);
         create_player(config_game.winners[1], 0);
         create_player(config_game.winners[2], 2);
-        let num = config_game.winners.indexOf(+sessionStorage.getItem("current-monster"));
-        document.querySelector(`.item-choose__playeer_${num + 1}`).textContent = "playeer";
+        let num = config_game.winners.indexOf(+sessionStorage.getItem("current-hero"));
+        document.querySelector(`.item-choose__playeer_${num + 1}`).textContent = "player";
         let bet = +sessionStorage.getItem("current-bet");
         if ("0" == num) {
             document.querySelector(".item-choose__count").textContent = 5 * bet;
@@ -3350,23 +3337,24 @@
     }
     function create_player(number, place) {
         let image = document.createElement("img");
-        image.setAttribute("src", `img/other/monster-${number}.png`);
+        if (document.querySelector(".game_monsters")) image.setAttribute("src", `img/other/monster-${number}.png`); else if (document.querySelector(".game_cars")) image.setAttribute("src", `img/other/car-${number}.svg`);
         document.querySelectorAll(`.item-choose__image-monst_win`).forEach(((el, i) => {
             if (i == place) el.append(image);
         }));
     }
     function reset_game_monsters() {
-        config_game.monster_1_position = 0;
-        config_game.monster_2_position = 0;
-        config_game.monster_3_position = 0;
+        config_game.hero_1_position = 0;
+        config_game.hero_2_position = 0;
+        config_game.hero_3_position = 0;
         config_game.winners = [];
-        document.querySelector(".race-monsters__player_1").style.left = `${config_game.monster_1_position}%`;
-        document.querySelector(".race-monsters__player_2").style.left = `${config_game.monster_2_position}%`;
-        document.querySelector(".race-monsters__player_3").style.left = `${config_game.monster_3_position}%`;
-        document.querySelectorAll(".race-monsters__item").forEach((el => {
+        document.querySelector(".race__heroe_1 img").style.left = `${config_game.hero_1_position}%`;
+        document.querySelector(".race__heroe_2 img").style.left = `${config_game.hero_2_position}%`;
+        document.querySelector(".race__heroe_3 img").style.left = `${config_game.hero_3_position}%`;
+        document.querySelectorAll(".race__item").forEach((el => {
             if (el.classList.contains("_hide")) el.classList.remove("_hide");
         }));
         config_game.hero_finished = false;
+        document.querySelector(".race__bonuses-box").classList.add("_hold");
         setTimeout((() => {
             document.querySelectorAll(".item-choose__image-monst_win img").forEach((el => el.remove()));
             document.querySelectorAll(".item-choose__playeer").forEach((el => el.textContent = "bot"));
@@ -3375,43 +3363,43 @@
     }
     function current_monster_speed_up() {
         let hero_speed;
-        if (1 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_1; else if (2 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_2; else if (3 == +sessionStorage.getItem("current-monster")) hero_speed = config_game.speed_monster_3;
-        hero_speed *= 1.5;
-        if (1 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_1 = hero_speed; else if (2 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_2 = hero_speed; else if (3 == +sessionStorage.getItem("current-monster")) config_game.speed_monster_3 = hero_speed;
+        if (1 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_1; else if (2 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_2; else if (3 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_3;
+        hero_speed *= 2;
+        if (1 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_1 = hero_speed; else if (2 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_2 = hero_speed; else if (3 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_3 = hero_speed;
     }
     function monster_speed_down() {
         let enemy_1_speed;
         let enemy_2_speed;
         let num = get_random(1, 3);
-        if (1 == +sessionStorage.getItem("current-monster")) {
-            enemy_1_speed = config_game.speed_monster_2;
-            enemy_2_speed = config_game.speed_monster_3;
+        if (1 == +sessionStorage.getItem("current-hero")) {
+            enemy_1_speed = config_game.speed_hero_2;
+            enemy_2_speed = config_game.speed_hero_3;
             if (1 == num) {
-                enemy_1_speed /= 1.5;
-                config_game.speed_monster_2 = enemy_1_speed;
+                enemy_1_speed /= 2;
+                config_game.speed_hero_2 = enemy_1_speed;
             } else if (2 == num) {
-                enemy_2_speed /= 1.5;
-                config_game.speed_monster_3 = enemy_2_speed;
+                enemy_2_speed /= 2;
+                config_game.speed_hero_3 = enemy_2_speed;
             }
-        } else if (2 == +sessionStorage.getItem("current-monster")) {
-            enemy_1_speed = config_game.speed_monster_1;
-            enemy_2_speed = config_game.speed_monster_3;
+        } else if (2 == +sessionStorage.getItem("current-hero")) {
+            enemy_1_speed = config_game.speed_hero_1;
+            enemy_2_speed = config_game.speed_hero_3;
             if (1 == num) {
-                enemy_1_speed /= 1.5;
-                config_game.speed_monster_1 = enemy_1_speed;
+                enemy_1_speed /= 2;
+                config_game.speed_hero_1 = enemy_1_speed;
             } else if (2 == num) {
-                enemy_2_speed /= 1.5;
-                config_game.speed_monster_3 = enemy_2_speed;
+                enemy_2_speed /= 2;
+                config_game.speed_hero_3 = enemy_2_speed;
             }
-        } else if (3 == +sessionStorage.getItem("current-monster")) {
-            enemy_1_speed = config_game.speed_monster_1;
-            enemy_2_speed = config_game.speed_monster_2;
+        } else if (3 == +sessionStorage.getItem("current-hero")) {
+            enemy_1_speed = config_game.speed_hero_1;
+            enemy_2_speed = config_game.speed_hero_2;
             if (1 == num) {
-                enemy_1_speed /= 1.5;
-                config_game.speed_monster_1 = enemy_1_speed;
+                enemy_1_speed /= 2;
+                config_game.speed_hero_1 = enemy_1_speed;
             } else if (2 == num) {
-                enemy_2_speed /= 1.5;
-                config_game.speed_monster_2 = enemy_2_speed;
+                enemy_2_speed /= 2;
+                config_game.speed_hero_2 = enemy_2_speed;
             }
         }
     }
@@ -3445,18 +3433,15 @@
         } else no_money(".check");
         if (targetElement.closest(".item-choose__play")) {
             document.querySelector(".choose").classList.add("_hide");
-            document.querySelector(".race-monsters").classList.remove("_hide");
+            document.querySelector(".race").classList.remove("_hide");
             write_bonuses();
             start_game();
-            console.log("Вошли на экран игры");
         }
-        if (!document.querySelector(".prize-screen").classList.contains("_hide") && targetElement.closest(".item-choose__btn_again")) if (+sessionStorage.getItem("money") < +sessionStorage.getItem("current-bet")) {
-            console.log("Денег больше чем ставка");
-            document.querySelector(".race-monsters").classList.remove("_hide");
+        if (targetElement.closest(".item-choose__btn_again")) if (+sessionStorage.getItem("money") > +sessionStorage.getItem("current-bet")) {
+            document.querySelector(".race").classList.remove("_hide");
             document.querySelector(".prize-screen").classList.add("_hide");
             reset_game_monsters();
         } else location.href = "game-monsters.html";
-        if (targetElement.closest(".race-monsters__button-back")) ;
         if (targetElement.closest(".choose__button_store")) {
             if (!sessionStorage.getItem("speed-up")) sessionStorage.setItem("speed-up", 0);
             if (!sessionStorage.getItem("speed-down")) sessionStorage.setItem("speed-down", 0);
@@ -3472,7 +3457,6 @@
             write_bet_price_shop(price);
         }
         if (targetElement.closest(".block-bet__plus_shop")) if (current_bank >= (bet + 1) * price) {
-            console.log(`(bet + 0) * price = ${(bet + 1) * price}`);
             sessionStorage.setItem("bet", bet + 1);
             write_bet_price_shop(price);
         } else no_money(".check");
@@ -3481,33 +3465,33 @@
             if (3e3 == price) sessionStorage.setItem("speed-up", +sessionStorage.getItem("speed-up") + +sessionStorage.getItem("bet")); else sessionStorage.setItem("speed-down", +sessionStorage.getItem("speed-down") + +sessionStorage.getItem("bet"));
             sessionStorage.setItem("bet", 1);
             write_bet_price_shop(price);
+        } else no_money(".check");
+        if (targetElement.closest(".item-choose__hero") && 1 == targetElement.closest(".item-choose__hero").dataset.hero) {
+            remove_class(".item-choose__hero", "_active");
+            sessionStorage.setItem("current-hero", 1);
+            targetElement.closest(".item-choose__hero").classList.add("_active");
         }
-        if (targetElement.closest(".item-choose__monster") && 1 == targetElement.closest(".item-choose__monster").dataset.monster) {
-            remove_class(".item-choose__monster", "_active");
-            sessionStorage.setItem("current-monster", 1);
-            targetElement.closest(".item-choose__monster").classList.add("_active");
+        if (targetElement.closest(".item-choose__hero") && 2 == targetElement.closest(".item-choose__hero").dataset.hero) {
+            remove_class(".item-choose__hero", "_active");
+            sessionStorage.setItem("current-hero", 2);
+            targetElement.closest(".item-choose__hero").classList.add("_active");
         }
-        if (targetElement.closest(".item-choose__monster") && 2 == targetElement.closest(".item-choose__monster").dataset.monster) {
-            remove_class(".item-choose__monster", "_active");
-            sessionStorage.setItem("current-monster", 2);
-            targetElement.closest(".item-choose__monster").classList.add("_active");
+        if (targetElement.closest(".item-choose__hero") && 3 == targetElement.closest(".item-choose__hero").dataset.hero) {
+            remove_class(".item-choose__hero", "_active");
+            sessionStorage.setItem("current-hero", 3);
+            targetElement.closest(".item-choose__hero").classList.add("_active");
         }
-        if (targetElement.closest(".item-choose__monster") && 3 == targetElement.closest(".item-choose__monster").dataset.monster) {
-            remove_class(".item-choose__monster", "_active");
-            sessionStorage.setItem("current-monster", 3);
-            targetElement.closest(".item-choose__monster").classList.add("_active");
-        }
-        if (targetElement.closest(".race-monsters__item_down") && +sessionStorage.getItem("speed-down") > 0 && !config_game.hero_finished) {
+        if (targetElement.closest(".race__item_down") && +sessionStorage.getItem("speed-down") > 0 && !config_game.hero_finished) {
             sessionStorage.setItem("speed-down", +sessionStorage.getItem("speed-down") - 1);
-            document.querySelector(".race-monsters__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
+            document.querySelector(".race__count_down").textContent = `x${sessionStorage.getItem("speed-down")}`;
             monster_speed_down();
-            targetElement.closest(".race-monsters__item_down").classList.add("_hide");
+            targetElement.closest(".race__item_down").classList.add("_hide");
         }
-        if (targetElement.closest(".race-monsters__item_up") && +sessionStorage.getItem("speed-up") > 0 && !config_game.hero_finished) {
+        if (targetElement.closest(".race__item_up") && +sessionStorage.getItem("speed-up") > 0 && !config_game.hero_finished) {
             sessionStorage.setItem("speed-up", +sessionStorage.getItem("speed-up") - 1);
-            document.querySelector(".race-monsters__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
+            document.querySelector(".race__count_up").textContent = `x${sessionStorage.getItem("speed-up")}`;
             current_monster_speed_up();
-            targetElement.closest(".race-monsters__item_up").classList.add("_hide");
+            targetElement.closest(".race__item_up").classList.add("_hide");
         }
     }));
     window["FLS"] = true;

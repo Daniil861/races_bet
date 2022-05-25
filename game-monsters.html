@@ -5,7 +5,7 @@
 	<title>Races Bet - game monsters</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/style.min.css?_v=20220524201212">
+	<link rel="stylesheet" href="css/style.min.css?_v=20220525142403">
 	<link rel="shortcut icon" href="favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
 </head>
@@ -90,9 +90,9 @@
 		</button>
 	</div>
 	<div class="wrapper">
-		<div class="wrapper__game-monsters game-monsters">
-			<div class="game-monsters__body">
-				<div class="game-monsters__choose choose ">
+		<div class="wrapper__game game game_monsters">
+			<div class="game__body">
+				<div class="game__choose choose">
 					<div class="choose__body">
 						<div class="choose__button-box">
 							<a href="index.html" class="choose__button">
@@ -102,11 +102,11 @@
 						<div class="choose__item item-choose">
 							<div class="item-choose__body">
 								<h2 class="item-choose__title">Welcome to Races Bet!</h2>
-								<h3 class="item-choose__sub-title">Choose a monster and place your bet! If your monster crosses
-									the finish line first, you win!
+								<h3 class="item-choose__sub-title item-choose__sub-title_monsters">Choose a monster and place
+									your bet! If your monster crosses the finish line first, you win!
 								</h3>
-								<div class="item-choose__monsters">
-									<div data-monster="1" class="item-choose__monster">
+								<div class="item-choose__heroes">
+									<div data-hero="1" class="item-choose__hero">
 										<div class="item-choose__image">
 											<div class="item-choose__image-monst">
 												<picture><source srcset="img/other/monster-1.webp" type="image/webp"><img src="img/other/monster-1.png" alt="Image"></picture>
@@ -151,7 +151,7 @@
 										</div>
 										<div class="item-choose__text">Your Choice</div>
 									</div>
-									<div data-monster="2" class="item-choose__monster">
+									<div data-hero="2" class="item-choose__hero">
 										<div class="item-choose__image">
 											<div class="item-choose__image-monst">
 												<picture><source srcset="img/other/monster-2.webp" type="image/webp"><img src="img/other/monster-2.png" alt="Image"></picture>
@@ -197,7 +197,7 @@
 										</div>
 										<div class="item-choose__text">Your Choice</div>
 									</div>
-									<div data-monster="3" class="item-choose__monster">
+									<div data-hero="3" class="item-choose__hero">
 										<div class="item-choose__image">
 											<div class="item-choose__image-monst">
 												<picture><source srcset="img/other/monster-3.webp" type="image/webp"><img src="img/other/monster-3.png" alt="Image"></picture>
@@ -272,7 +272,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="game-monsters__shop shop _hide">
+				<div class="game__shop shop _hide">
 					<div class="shop__body">
 						<div class="shop__bank">
 							<div class="shop__money money">
@@ -337,37 +337,37 @@
 						</div>
 					</div>
 				</div>
-				<div class="game-monsters__race race-monsters _hide">
-					<div class="race-monsters__body">
-						<div class="race-monsters__backgrounds">
+				<div class="game__race race _hide">
+					<div class="race__body">
+						<div class="race__backgrounds">
 							<span></span>
 						</div>
-						<div class="race-monsters__heroes">
-							<div class="race-monsters__heroe race-monsters__heroe_1 ">
-								<picture><source srcset="img/other/monster-1.webp" type="image/webp"><img src="img/other/monster-1.png" alt="Image" class="race-monsters__player race-monsters__player_1"></picture>
-								<div class="race-monsters__sock race-monsters__sock_1">
+						<div class="race__heroes">
+							<div class="race__heroe race__heroe_1 ">
+								<picture><source srcset="img/other/monster-1.webp" type="image/webp"><img src="img/other/monster-1.png" alt="Image" class="race__player race__player_1"></picture>
+								<div class="race__sock race__sock_1">
 									<img src="img/other/sock-1.svg" alt="Image">
 								</div>
 							</div>
-							<div class="race-monsters__heroe race-monsters__heroe_2">
-								<picture><source srcset="img/other/monster-2.webp" type="image/webp"><img src="img/other/monster-2.png" alt="Image" class="race-monsters__player race-monsters__player_2"></picture>
-								<div class="race-monsters__sock race-monsters__sock_2">
+							<div class="race__heroe race__heroe_2">
+								<picture><source srcset="img/other/monster-2.webp" type="image/webp"><img src="img/other/monster-2.png" alt="Image" class="race__player race__player_2"></picture>
+								<div class="race__sock race__sock_2">
 									<img src="img/other/sock-2.svg" alt="Image">
 								</div>
 							</div>
-							<div class="race-monsters__heroe race-monsters__heroe_3">
-								<picture><source srcset="img/other/monster-3.webp" type="image/webp"><img src="img/other/monster-3.png" alt="Image" class="race-monsters__player race-monsters__player_3"></picture>
-								<div class="race-monsters__sock race-monsters__sock_3">
+							<div class="race__heroe race__heroe_3">
+								<picture><source srcset="img/other/monster-3.webp" type="image/webp"><img src="img/other/monster-3.png" alt="Image" class="race__player race__player_3"></picture>
+								<div class="race__sock race__sock_3">
 									<img src="img/other/sock-3.svg" alt="Image">
 								</div>
 							</div>
 						</div>
-						<a href="game-monsters.html" class="race-monsters__button-back button-back">
+						<a href="game-monsters.html" class="race__button-back button-back">
 							<p>back</p>
 						</a>
-						<div class="race-monsters__circle"></div>
-						<div class="race-monsters__bank">
-							<div class="race-monsters__money money">
+						<div class="race__circle"></div>
+						<div class="race__bank">
+							<div class="race__money money">
 								<div class="money__body">
 									<div class="money__row">
 										<div class="money__icon icon-anim">
@@ -378,31 +378,31 @@
 								</div>
 							</div>
 						</div>
-						<div class="race-monsters__bonuses-box">
-							<div class="race-monsters__bonuses">
-								<div class="race-monsters__item race-monsters__item_down">
+						<div class="race__bonuses-box _hold">
+							<div class="race__bonuses">
+								<div class="race__item race__item_down">
 									<img src="img/icons/speed-down.svg" alt="Image">
-									<div class="race-monsters__count race-monsters__count_down">x2</div>
+									<div class="race__count race__count_down">x2</div>
 								</div>
-								<div class="race-monsters__item race-monsters__item_up">
+								<div class="race__item race__item_up">
 									<img src="img/icons/speed-up.svg" alt="Image">
-									<div class="race-monsters__count race-monsters__count_up">x2</div>
+									<div class="race__count race__count_up">x2</div>
 								</div>
 							</div>
 						</div>
-						<div class="race-monsters__timer">
-							<div class="race-monsters__timer-count">3</div>
+						<div class="race__timer">
+							<div class="race__timer-count">3</div>
 						</div>
 					</div>
 				</div>
-				<div class="game-monsters__prize-screen prize-screen _hide">
+				<div class="game__prize-screen prize-screen _hide">
 					<div class="prize-screen__body">
 						<div class="prize-screen__item item-choose">
 							<div class="item-choose__body item-choose__body_win">
 								<h2 class="item-choose__title item-choose__title_win">You win!</h2>
 								<div class="item-choose__count">500</div>
-								<div class="item-choose__monsters item-choose__monsters_win">
-									<div data-monster="1" class="item-choose__monster item-choose__monster_win">
+								<div class="item-choose__heroes item-choose__heroes_win">
+									<div class="item-choose__hero item-choose__hero_win">
 										<div class="item-choose__image">
 											<div data-place="2" class="item-choose__image-monst item-choose__image-monst_win">
 											</div>
@@ -480,7 +480,7 @@
 										<div class="item-choose__place">2</div>
 										<div class="item-choose__playeer item-choose__playeer_2">bot</div>
 									</div>
-									<div data-monster="2" class="item-choose__monster item-choose__monster_win">
+									<div class="item-choose__hero item-choose__hero_win">
 										<div class="item-choose__image">
 											<div data-place="1" class="item-choose__image-monst item-choose__image-monst_win">
 											</div>
@@ -600,7 +600,7 @@
 										<div class="item-choose__place">1</div>
 										<div class="item-choose__playeer item-choose__playeer_1">bot</div>
 									</div>
-									<div data-monster="3" class="item-choose__monster item-choose__monster_win">
+									<div class="item-choose__hero item-choose__hero_win">
 										<div class="item-choose__image">
 											<div data-place="3" class="item-choose__image-monst item-choose__image-monst_win">
 											</div>
@@ -694,7 +694,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="js/app.min.js?_v=20220524201212"></script>
+	<script src="js/app.min.js?_v=20220525142403"></script>
 </body>
 
 </html>
