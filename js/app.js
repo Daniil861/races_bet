@@ -3369,6 +3369,16 @@
         if (1 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_1; else if (2 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_2; else if (3 == +sessionStorage.getItem("current-hero")) hero_speed = config_game.speed_hero_3;
         hero_speed *= 2;
         if (1 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_1 = hero_speed; else if (2 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_2 = hero_speed; else if (3 == +sessionStorage.getItem("current-hero")) config_game.speed_hero_3 = hero_speed;
+        document.querySelector(`.race__heroe-box_${+sessionStorage.getItem("current-hero")}`).classList.add("_speed-up");
+        setTimeout((() => {
+            document.querySelector(`.race__heroe-box_${+sessionStorage.getItem("current-hero")}`).classList.remove("_speed-up");
+        }), 500);
+    }
+    function get_anim_speed_down(number) {
+        document.querySelector(`.race__heroe-box_${number}`).classList.add("_speed-down");
+        setTimeout((() => {
+            document.querySelector(`.race__heroe-box_${number}`).classList.remove("_speed-down");
+        }), 500);
     }
     function monster_speed_down() {
         let enemy_1_speed;
@@ -3380,9 +3390,11 @@
             if (1 == num) {
                 enemy_1_speed /= 2;
                 config_game.speed_hero_2 = enemy_1_speed;
+                get_anim_speed_down(2);
             } else if (2 == num) {
                 enemy_2_speed /= 2;
                 config_game.speed_hero_3 = enemy_2_speed;
+                get_anim_speed_down(3);
             }
         } else if (2 == +sessionStorage.getItem("current-hero")) {
             enemy_1_speed = config_game.speed_hero_1;
@@ -3390,9 +3402,11 @@
             if (1 == num) {
                 enemy_1_speed /= 2;
                 config_game.speed_hero_1 = enemy_1_speed;
+                get_anim_speed_down(1);
             } else if (2 == num) {
                 enemy_2_speed /= 2;
                 config_game.speed_hero_3 = enemy_2_speed;
+                get_anim_speed_down(3);
             }
         } else if (3 == +sessionStorage.getItem("current-hero")) {
             enemy_1_speed = config_game.speed_hero_1;
@@ -3400,9 +3414,11 @@
             if (1 == num) {
                 enemy_1_speed /= 2;
                 config_game.speed_hero_1 = enemy_1_speed;
+                get_anim_speed_down(1);
             } else if (2 == num) {
                 enemy_2_speed /= 2;
                 config_game.speed_hero_2 = enemy_2_speed;
+                get_anim_speed_down(2);
             }
         }
     }

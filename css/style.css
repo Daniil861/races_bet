@@ -967,6 +967,13 @@ body._hold {
 .race__heroe_2 img {
   transform: rotateY(-180deg);
 }
+.race__heroe-box._speed-up {
+  transition: all 0.3s ease 0s;
+  transform: scale(1.3) translateX(60px);
+}
+.race__heroe-box._speed-down {
+  animation: opacity_item 0.2s ease 2;
+}
 .race__heroe-car:not(:last-child)::before {
   content: "";
   display: none;
@@ -1518,6 +1525,11 @@ body._hold {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes opacity_item {
+  100% {
+    opacity: 0.2;
   }
 }
 .swiper {
